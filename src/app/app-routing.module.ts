@@ -1,10 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'; // app can have routing functionality
+
+// gives the Router somewhere to go once you configure the routes:
 import { ThingsComponent } from './things/things.component';
-    // gives the Router somewhere to go once you configure the routes
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ThingDetailComponent } from './thing-detail/thing-detail.component';
+
 
 const routes: Routes = [
-  { path: 'things', component: ThingsComponent }
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+        // makes app navigate to dashboard automatically
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'detail/:id', component: HeroDetailComponent }, // parameterized route
+    { path: 'things', component: ThingsComponent }
 ];
     /* typical Angular Route has two properties:
         path: a string that matches the URL in the browser address bar.
@@ -13,8 +21,9 @@ const routes: Routes = [
 
 @NgModule({ // initializes the router and starts it listening for browser location changes
   imports: [RouterModule.forRoot(routes)],
-    /* forRoot() method supplies the service providers and directives needed for routing, 
+    /* forRoot() method supplies the service providers and directives needed for routing,
     and performs the initial navigation based on the current browser URL*/
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

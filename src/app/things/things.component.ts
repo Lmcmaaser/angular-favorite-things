@@ -13,8 +13,7 @@ import { MessageService } from '../message.service';
 
 export class ThingsComponent implements OnInit {
 
-    selectedThing: Thing;
-    //things = THINGS;
+    // selectedThing: Thing;
     things: Thing[];
 
     constructor(private thingService: ThingService, private messageService: MessageService) { }
@@ -26,14 +25,10 @@ export class ThingsComponent implements OnInit {
         A good place to put initialization logic.*/
     }
 
-    onSelect(thing: Thing): void {
-        this.selectedThing = thing;
-        this.messageService.add(`ThingsComponent: Selected thing id=${thing.id}`);
-    }
-
-    /* getThings(): void {
-        this.things = this.thingService.getThings();
-    }*/
+    // onSelect(thing: Thing): void {
+    //     this.selectedThing = thing;
+    //     this.messageService.add(`ThingsComponent: Selected thing id=${thing.id}`);
+    // }
 
     getThings(): void {
         this.thingService.getThings()

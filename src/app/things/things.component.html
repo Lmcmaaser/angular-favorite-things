@@ -1,11 +1,9 @@
 <h2>My Favorite Things</h2>
 
 <ul class="things">
-  <li *ngFor="let thing of things"
-    [class.selected]="thing === selectedThing"
-    (click)="onSelect(thing)">
-    <span class="badge">{{thing.id}}</span> {{thing.name}}
+  <li *ngFor="let thing of things">
+    <a routerLink="/detail/{{thing.id}}">
+        <span class="badge">{{thing.id}}</span> {{thing.name}}
+    </a>
   </li>
 </ul>
-
-<app-thing-detail [thing]="selectedThing"></app-thing-detail>

@@ -18,6 +18,12 @@ export class ThingService {
         this.messageService.add('ThingService: fetched things');
         return of(THINGS);
     }
+
+    getThing(id: number): Observable<Thing> {
+        // TODO: send the message _after_ fetching the hero
+        this.messageService.add(`ThingService: fetched thing id=${id}`);
+        return of(THINGS.find(thing => thing.id === id));
+    }
     constructor(private messageService: MessageService) { }
     /*  parameter that declares a private messageService property.
     Angular will inject the singleton MessageService into that property when it creates the ThingService.
