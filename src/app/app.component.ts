@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-favorite-things';
+  title = 'A List of my Favorite Things with Angular and TypeScript';
 }

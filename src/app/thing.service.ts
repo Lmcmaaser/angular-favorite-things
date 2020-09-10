@@ -22,13 +22,13 @@ export class ThingService {
 
     /** GET thing by id. Will 404 if id not found */
     getThing(id: number): Observable<Thing> {
-        this.messageService.add(`ThingService: fetched thing id=${id}`);
+        this.messageService.add(`ThingService fetched the favorite thing with id=${id}`);
         return of(THINGS.find(thing => thing.id === id));
     }
 
 
     /** Log a ThingService message with the MessageService...b/c it gets called so frequently */
-    private log(message: string) {
-        this.messageService.add(`ThingService: ${message}`);
-    }
+    // private log(message: string) {
+    //     this.messageService.add(`ThingService: ${message}`);
+    // }
 }

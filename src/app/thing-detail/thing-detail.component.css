@@ -1,27 +1,24 @@
 /* ThingDetailComponent's private CSS styles */
-label {
-  display: inline-block;
-  width: 3em;
-  margin: .5em 0;
-  color: #607D8B;
-  font-weight: bold;
+div {
+    color: orange;
+    background-color: #3f525c;
+    padding: 5px;
+    margin-top: 20px;
 }
-input {
-  height: 2em;
-  font-size: 1em;
-  padding-left: .4em;
-}
+
 button {
-  margin-top: 20px;
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: Arial;
+    font-weight: bold;
+    /* background-color: #eee; */
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 button:hover {
-  background-color: #cfd8dc;
+  background-color: orange;
 }
 button:disabled {
   background-color: #eee;
