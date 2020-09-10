@@ -1,9 +1,10 @@
 # AngularFavoriteThings
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.0.
-*It is a variation on the angular tutorial "Tour of Heroes" which is available on https://angular.io/*
-*I created it to help myself become more familiar with using angular and typescript*
-*It is a static app*
+
+*It is a variation on the angular tutorial "Tour of Heroes" which is available on https://angular.io/.*
+*I created it to help myself become more familiar with using angular and typescript.*
+*It is a static app.*
 
 ## Development server
 
