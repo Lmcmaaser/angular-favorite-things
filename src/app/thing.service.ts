@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs'; // a class from RxJS library
 import { Thing } from './thing';
-import { THINGS } from '.dummy-data';
+import { THINGS } from './dummy-data';
 import { MessageService } from './message.service';
 
 /* marks the class as one that participates in the dependency injection system
