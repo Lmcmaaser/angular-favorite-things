@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Thing } from './thing';
 import { THINGS } from './dummy-data';
 import { Observable, of } from 'rxjs'; // a class from RxJS library
@@ -10,13 +11,10 @@ and accepts a metadata object for the service*/
 shared instance of ThingService and inject it into any class that asks for it*/
 })
 export class ThingService {
-    /* getThings(): Thing[] {
-        return THINGS;
-    } */
+
+    /** GET heroes from the server */
     getThings(): Observable<Thing[]> {
-        // TODO: send the message _after_ fetching the things
-        this.messageService.add('ThingService: fetched things');
-        return of(THINGS);
+        return this.http.get<Hero[]>(this.heroesUrl)
     }
 
     getThing(id: number): Observable<Thing> {
@@ -24,7 +22,14 @@ export class ThingService {
         this.messageService.add(`ThingService: fetched thing id=${id}`);
         return of(THINGS.find(thing => thing.id === id));
     }
-    constructor(private messageService: MessageService) { }
+    constructor(
+        private http: HttpClient,
+        private heroesUrl = 'api/heroes',  // URL to web api
+        /** Log a ThingService message with the MessageService...b/c it gets called so frequently */
+        private log(message: string) {
+            this.messageService.add(`ThingService: ${message}`);
+        }
+    )
     /*  parameter that declares a private messageService property.
     Angular will inject the singleton MessageService into that property when it creates the ThingService.
     This is a typical "service-in-service" scenario:

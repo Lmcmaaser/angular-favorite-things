@@ -8,10 +8,9 @@ import { ThingDetailComponent } from './thing-detail/thing-detail.component';
 
 
 const routes: Routes = [
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-        // makes app navigate to dashboard automatically
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // makes app navigate to dashboard automatically
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'detail/:id', component: HeroDetailComponent }, // parameterized route
+    { path: 'detail/:id', component: ThingDetailComponent }, // parameterized route
     { path: 'things', component: ThingsComponent }
 ];
     /* typical Angular Route has two properties:

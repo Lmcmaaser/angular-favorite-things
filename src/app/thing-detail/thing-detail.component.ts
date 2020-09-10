@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { ThingService } from '../thing.service';
 import { Thing } from '../thing'
+import { ThingService } from '../thing.service';
 
 @Component({
   selector: 'app-thing-detail',

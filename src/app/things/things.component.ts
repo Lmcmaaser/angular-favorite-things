@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Thing } from '../thing';
-// import { THINGS } from '../dummy-data';
 import { ThingService } from '../thing.service';
 import { MessageService } from '../message.service';
 
@@ -13,7 +12,6 @@ import { MessageService } from '../message.service';
 
 export class ThingsComponent implements OnInit {
 
-    // selectedThing: Thing;
     things: Thing[];
 
     constructor(private thingService: ThingService, private messageService: MessageService) { }
@@ -24,11 +22,6 @@ export class ThingsComponent implements OnInit {
         /* ngOnInit() is lifecycle hook. Is called shortly after creating a component.
         A good place to put initialization logic.*/
     }
-
-    // onSelect(thing: Thing): void {
-    //     this.selectedThing = thing;
-    //     this.messageService.add(`ThingsComponent: Selected thing id=${thing.id}`);
-    // }
 
     getThings(): void {
         this.thingService.getThings()
