@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Thing } from './thing';
 import { THINGS } from './dummy-data';
 import { Observable, of } from 'rxjs'; // a class from RxJS library
+import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 
 @Injectable({ /* marks the class as one that participates in the dependency injection system
@@ -12,26 +13,58 @@ shared instance of ThingService and inject it into any class that asks for it*/
 })
 export class ThingService {
 
-    /** GET heroes from the server */
+    /** GET things from the server */
     getThings(): Observable<Thing[]> {
-        return this.http.get<Hero[]>(this.heroesUrl)
+        return this.http.get<Thing[]>(this.thingsUrl)
+        .pipe( //pipe puts the observable result (an array of things) into catchError() operator
+            tap(_ => this.log('fetched things')),
+            catchError(this.handleError<Thing[]>('getThings', []))
+        );
     }
 
+    /** GET thing by id. Will 404 if id not found */
     getThing(id: number): Observable<Thing> {
-        // TODO: send the message _after_ fetching the hero
-        this.messageService.add(`ThingService: fetched thing id=${id}`);
-        return of(THINGS.find(thing => thing.id === id));
+        const url = `${this.thingsUrl}/${id}`;
+        return this.http.get<Thing>(url)
+        .pipe(
+            tap(_ => this.log(`fetched thing id=${id}`)),
+            catchError(this.handleError<Hero>(`getThing id=${id}`))
+      );
+    }
+
+    /** PUT: update the hero on the server */
+    updateThing(thing: Thing): Observable<any> {
+        return this.http.put(this.thingsUrl, thing, this.httpOptions)
+        .pipe(
+            tap(_ => this.log(`updated thing id=${thing.id}`)),
+            catchError(this.handleError<any>('updateThing'))
+        );
     }
     constructor(
         private http: HttpClient,
-        private heroesUrl = 'api/heroes',  // URL to web api
         /** Log a ThingService message with the MessageService...b/c it gets called so frequently */
         private log(message: string) {
             this.messageService.add(`ThingService: ${message}`);
-        }
+        },
+        private heroesUrl = 'api/heroes';  // URL to web api
+
+        private handleError<T>(operation = 'operation', result?: T) {
+          return (error: any): Observable<T> => {
+
+            // TODO: send the error to remote logging infrastructure
+            console.error(error); // log to console instead
+
+            // TODO: better job of transforming error for user consumption
+            this.log(`${operation} failed: ${error.message}`);
+
+            // Let the app keep running by returning an empty result.
+            return of(result as T);
+        };
+        /*
+         * Handle Http operation that failed.
+         * Let the app continue.
+         * @param operation - name of the operation that failed
+         * @param result - optional value to return as the observable result
+         */
     )
-    /*  parameter that declares a private messageService property.
-    Angular will inject the singleton MessageService into that property when it creates the ThingService.
-    This is a typical "service-in-service" scenario:
-        you inject the MessageService into the HeroService which is injected into the HeroesComponent.*/
 }

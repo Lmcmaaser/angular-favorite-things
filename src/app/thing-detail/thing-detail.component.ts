@@ -31,4 +31,8 @@ export class ThingDetailComponent implements OnInit {
     goBack(): void {
         this.location.back();
     }
+    save(): void {
+        this.thingService.updateThing(this.thing)
+            .subscribe(() => this.goBack());
+    }
 }
