@@ -40,13 +40,38 @@ export class ThingService {
             catchError(this.handleError<any>('updateThing'))
         );
     }
+    /*HttpClient.put() method takes 3 parameters: the URL, data to update, and options */
+
+    httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+
+    /** POST: add a new hero to the server */
+    addThing(thing: Thing): Observable<Thing> {
+        return this.http.post<Thing>(this.thingsUrl, thing, this.httpOptions)
+        .pipe(
+            tap((newThing: Thing) => this.log(`added thing w/ id=${newThing.id}`)),
+            catchError(this.handleError<Thing>('addThing'))
+        );
+    }
+
+    /** DELETE: delete the hero from the server */
+    deleteHero(thing: Thing | number): Observable<Thing> {
+        const id = typeof thing === 'number' ? thing : thing.id;
+        const url = `${this.thingsUrl}/${id}`;
+
+        return this.http.delete<Thing>(url, this.httpOptions)
+            .pipe(
+                tap(_ => this.log(`deleted thing id=${id}`)),
+                catchError(this.handleError<Thing>('deleteThing'))
+            );
+    }
+
     constructor(
         private http: HttpClient,
         /** Log a ThingService message with the MessageService...b/c it gets called so frequently */
         private log(message: string) {
             this.messageService.add(`ThingService: ${message}`);
         },
-        private heroesUrl = 'api/heroes';  // URL to web api
+        private thingsUrl = 'api/things';  // URL to web api
 
         private handleError<T>(operation = 'operation', result?: T) {
           return (error: any): Observable<T> => {

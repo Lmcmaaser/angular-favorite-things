@@ -28,4 +28,19 @@ export class ThingsComponent implements OnInit {
             .subscribe(things => this.things = things);
     } // observable
 
+    add(name: string): void {
+        name = name.trim();
+        if (!name) { return; }
+            this.thingService.addThing({ name } as Thing)
+                .subscribe(thing => {
+                this.things.push(thing);
+            });
+    }
+    // click handler
+
+    delete(thing: Thing): void {
+        this.things = this.things.filter(h => h !== thing);
+        this.thingService.deleteThing(thing).subscribe();
+    }
+
 }

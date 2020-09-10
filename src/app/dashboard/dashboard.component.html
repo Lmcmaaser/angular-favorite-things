@@ -1,12 +1,12 @@
 <h3>Top Favorite Things</h3>
 <div class="grid grid-pad">
-
-  <a *ngFor="let thing of things"
-    class="col-1-4"
-    routerLink="/detail/{{thing.id}}">
-
-    <div class="module thing">
-      <h4>{{thing.name}}</h4>
-    </div>
-  </a>
+    <a *ngFor="let thing of things"
+        class="col-1-4"
+        routerLink="/detail/{{thing.id}}"
+    >
+        <div class="module thing">
+            <h4>{{thing.name}}</h4>
+        </div>
+    </a>
 </div>
+<app-thing-search></app-thing-search>
