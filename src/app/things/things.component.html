@@ -1,22 +1,9 @@
 <h2>My Favorite Things</h2>
-<div>
-    <h3>Add a favorite thing!</h3>
-  <label>What is your favorite thing?
-    <input #thingName />
-  </label>
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="add(thingName.value); thingName.value=''">
-    ADD
-  </button>
-</div>
+
 <ul class="things">
-  <li *ngFor="let thing of things">
-    <a routerLink="/detail/{{thing.id}}">
-        <span class="badge">{{thing.id}}</span> {{thing.name}}
-    </a>
-  </li>
-    <button class="delete" title="delete thing"
-        (click)="delete(thing)">
-        x
-    </button>
+    <li *ngFor="let thing of things">
+        <a routerLink="/detail/{{thing.id}}">
+            <span class="badge">{{thing.id}}</span> {{thing.name}}
+        </a>
+    </li>
 </ul>

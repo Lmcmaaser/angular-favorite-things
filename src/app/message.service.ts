@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 
 export class MessageService {
     /* The service exposes its cache of messages and two methods:
     one to add() a message to the cache and another to clear() the cache. */
-  messages: string[] = [];
+    messages: string[] = [];
 
-  add(message: string) {
-    this.messages.push(message);
-  }
+    add(message: string) {
+        this.messages.push(message);
+    }
 
-  clear() {
-    this.messages = [];
-  }
+    clear() {
+        this.messages = [];
+    }
 }

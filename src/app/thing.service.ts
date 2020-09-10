@@ -1,125 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Thing } from './thing';
 import { Observable, of } from 'rxjs'; // a class from RxJS library
-import { catchError, map, tap } from 'rxjs/operators';
+import { Thing } from './thing';
+import { THINGS } from '.dummy-data';
 import { MessageService } from './message.service';
 
-@Injectable({ /* marks the class as one that participates in the dependency injection system
+/* marks the class as one that participates in the dependency injection system
 and accepts a metadata object for the service*/
-  providedIn: 'root' /* provides the service at the root level which lets Angular create a single,
+/* provides the service at the root level which lets Angular create a single,
 shared instance of ThingService and inject it into any class that asks for it*/
-})
+@Injectable({ providedIn: 'root' })
 export class ThingService {
-    private thingsUrl = 'api/things';  // URL to web api
-    /*HttpClient.put() method takes 3 parameters: the URL, data to update, and options */
-    httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
 
-    constructor(
-        private http: HttpClient,
-        private messageService: MessageService) { }
+    constructor(private messageService: MessageService) { }
 
-        /** Log a ThingService message with the MessageService...b/c it gets called so frequently */
-        private log(message: string) {
-            this.messageService.add(`ThingService: ${message}`);
-        }
+    /** GET things from the server */
+    getThings(): Observable<Thing[]> {
+        // TODO: send the message _after_ fetching the heroes
+        // this.messageService.add('ThingService: fetched things');
+            return of(THINGS);
+    }
 
-        private handleError<T>(operation = 'operation', result?: T) {
-          return (error: any): Observable<T> => {
-
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
-
-            // TODO: better job of transforming error for user consumption
-            this.log(`${operation} failed: ${error.message}`);
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
-        /*
-         * Handle Http operation that failed.
-         * Let the app continue.
-         * @param operation - name of the operation that failed
-         * @param result - optional value to return as the observable result
-         */
-
-        /** GET things from the server */
-        getThings(): Observable<Thing[]> {
-            return this.http.get<Thing[]>(this.thingsUrl)
-                .pipe(
-                //pipe puts the observable result (an array of things) into catchError() operator
-                    tap(_ => this.log('fetched things')),
-                    catchError(this.handleError<Thing[]>('getThings', []))
-                );
-        }
-
-        /** GET thing by id. Return `undefined` when id not found */
-        getThingNo404<Data>(id: number): Observable<Thing> {
-            const url = `${this.thingsUrl}/?id=${id}`;
-            return this.http.get<Thing[]>(url)
-                .pipe(
-                    map(things => things[0]), // returns a {0|1} element array
-                    tap(h => {
-                        const outcome = h ? `fetched` : `did not find`;
-                        this.log(`${outcome} thing id=${id}`);
-                    }),
-                    catchError(this.handleError<Hero>(`getThing id=${id}`))
-                );
-        }
-
-        /** GET thing by id. Will 404 if id not found */
-        getThing(id: number): Observable<Thing> {
-            const url = `${this.thingsUrl}/${id}`;
-            return this.http.get<Thing>(url)
-                .pipe(
-                    tap(_ => this.log(`fetched thing id=${id}`)),
-                    catchError(this.handleError<Thing>(`getThing id=${id}`))
-                );
-        }
-
-        /* GET things whose name contains search term */
-        searchThings(term: string): Observable<Thing[]> {
-            if (!term.trim()) {
-                // if not search term, return empty thing array.
-                return of([]);
-            }
-            return this.http.get<Thing[]>(`${this.thingsUrl}/?name=${term}`)
-                .pipe(
-                    tap(x => x.length ?
-                        this.log(`found things matching "${term}"`) :
-                        this.log(`no things matching "${term}"`)),
-                    catchError(this.handleError<Thing[]>('searchThings', []))
-                );
-        }
-
-        /** POST: add a new hero to the server */
-        addThing(thing: Thing): Observable<Thing> {
-            return this.http.post<Thing>(this.thingsUrl, thing, this.httpOptions)
-               .pipe(
-                   tap((newThing: Thing) => this.log(`added thing w/ id=${newThing.id}`)),
-                   catchError(this.handleError<Thing>('addThing'))
-               );
-       }
-        /** PUT: update the hero on the server */
-        updateThing(thing: Thing): Observable<any> {
-            return this.http.put(this.thingsUrl, thing, this.httpOptions)
-                .pipe(
-                    tap(_ => this.log(`updated thing id=${thing.id}`)),
-                    catchError(this.handleError<any>('updateThing'))
-                );
-        }
+    /** GET thing by id. Will 404 if id not found */
+    getThing(id: number): Observable<Thing> {
+        this.messageService.add(`ThingService: fetched thing id=${id}`);
+        return of(THINGS.find(thing => thing.id === id));
+    }
 
 
-        /** DELETE: delete the hero from the server */
-        deleteHero(thing: Thing | number): Observable<Thing> {
-            const id = typeof thing === 'number' ? thing : thing.id;
-            const url = `${this.thingsUrl}/${id}`;
-
-            return this.http.delete<Thing>(url, this.httpOptions)
-                .pipe(
-                    tap(_ => this.log(`deleted thing id=${id}`)),
-                    catchError(this.handleError<Thing>('deleteThing'))
-                );
-        }
-    )
+    /** Log a ThingService message with the MessageService...b/c it gets called so frequently */
+    private log(message: string) {
+        this.messageService.add(`ThingService: ${message}`);
+    }
 }

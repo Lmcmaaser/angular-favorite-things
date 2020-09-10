@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Thing } from '../thing';
 import { ThingService } from '../thing.service';
-import { MessageService } from '../message.service';
 
 @Component({
   // metadata properties:
@@ -14,9 +13,10 @@ export class ThingsComponent implements OnInit {
 
     things: Thing[];
 
-    constructor(private thingService: ThingService, private messageService: MessageService) { }
+    constructor(private thingService: ThingService) { }
         /*parameter simultaneously defines a private thingService property and identifies it as a ThingService injection site.*/
         /*Reserve the constructor for simple initialization such as wiring constructor parameters to properties*/
+
     ngOnInit() {
         this.getThings();
         /* ngOnInit() is lifecycle hook. Is called shortly after creating a component.
@@ -25,22 +25,7 @@ export class ThingsComponent implements OnInit {
 
     getThings(): void {
         this.thingService.getThings()
-            .subscribe(things => this.things = things);
+        .subscribe(things => this.things = things);
     } // observable
-
-    add(name: string): void {
-        name = name.trim();
-        if (!name) { return; }
-            this.thingService.addThing({ name } as Thing)
-                .subscribe(thing => {
-                this.things.push(thing);
-            });
-    }
-    // click handler
-
-    delete(thing: Thing): void {
-        this.things = this.things.filter(h => h !== thing);
-        this.thingService.deleteThing(thing).subscribe();
-    }
 
 }

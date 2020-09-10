@@ -12,13 +12,13 @@ import { ThingService } from '../thing.service';
 })
 
 export class ThingDetailComponent implements OnInit {
-    @Input() thing: Thing;
+    thing: Thing;
     constructor(
         private route: ActivatedRoute, // holds information about the route
         private thingService: ThingService, // gets thing data from the remote server
         private location: Location // Angular service for interacting with the browser
     ) { }
-    ngOnInit() {
+    ngOnInit(): void {
         this.getThing();
     }
     getThing(): void {
@@ -30,9 +30,5 @@ export class ThingDetailComponent implements OnInit {
     }
     goBack(): void {
         this.location.back();
-    }
-    save(): void {
-        this.thingService.updateThing(this.thing)
-            .subscribe(() => this.goBack());
     }
 }
